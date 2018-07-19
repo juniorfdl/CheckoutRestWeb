@@ -1,0 +1,64 @@
+﻿
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 margem_01">
+            <img src="img/logo_sistema_inpulse_branco.png" alt="" />
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 margem_01">
+            <p class="fonte_01">CHEGUE ONDE VOCÊ DESEJA!</p>
+            <p class="fonte_02">Nós te damos o impulso que você precisa!</p>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5 margem_01">
+            <form class="formlogin" name="flogin">
+                <div class="row">
+                    <luar-text container-class="col-md-11" label="Usuário"
+                               name="usuario" ng-model="ctrl.userName">
+                    </luar-text>
+                </div>
+
+                <div class="row">
+                    <luar-text container-class="col-md-11" label="Senha" type="password"
+                               name="senha" ng-model="ctrl.password">
+                    </luar-text>                    
+                </div>
+
+                <!-- <div class="row">
+                    <luar-select container-class="col-md-11" label="Modulo" name="NIVEL"
+                                 ng-options="item.NIVEL as item.NIVEL for item in ::ctrl.NivelLook"
+                                 ng-model="ctrl.Nivel">
+                    </luar-select>
+                </div> -->
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <button type="button" value="ENTRAR" class="form-control"
+                                ng-click="ctrl.login()">
+                            <span class="glyphicon glyphicon-user"></span>
+                            &nbsp;&nbsp;ENTRAR
+                        </button>
+                    </div>                   
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <input id="check1" type="checkbox" name="" value="">
+                        <label for="check1">Entrar no modo "Pausa"</label>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+

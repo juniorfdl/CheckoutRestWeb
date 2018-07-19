@@ -1,0 +1,106 @@
+<form name="formFinalizar">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Finalizar Ligação</h3>
+        <span class="pull-right">
+            <button class="btn btn-sm btn-primary hidden-print" ng-click="ctrl.LiberarLigacao()" style="width: 120px">
+                <span class="glyphicon glyphicon-ok-sign">
+                </span> Liberar</button>
+            <button class="btn btn-sm btn-primary hidden-print" ng-click="ctrl.FinalizarLigacao()" style="width: 120px">
+                <span class="glyphicon glyphicon-floppy-disk">
+                </span> Finalizar</button>
+            <button class="btn btn-sm btn-warning hidden-print" ng-click="ctrl.FecharFinalizar()" style="width: 120px">
+                <span class="glyphicon glyphicon-remove">
+                </span> Cancelar</button>
+        </span>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+        <fieldset>
+
+            <div class="row">
+                <!-- <luar-text container-class="col-md-2" label="Resultado" name="Resultado" required 
+                   ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.RESULTADO">
+                </luar-text> -->
+
+                <luar-select container-class="col-md-11" label="Resultado" name="ResultadoCombo" required 
+                   ng-options="item.id as ctrl.GetDescricaoResultado(item) for item in ::ctrl.DadosStart.Resultados"
+                    ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.RESULTADO"
+                    ng-change="ctrl.ChangeResultado()"
+                    >
+                </luar-select>
+            </div>
+
+            <div class="row">
+
+                <luar-select container-class="col-md-11" label="Fase do Contato" 
+                    name="Fase" ng-options="item.id as item.NOME for item in ::ctrl.DadosStart.FaseContato"
+                    ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.FASE_CONTATO">
+                </luar-select>
+
+            </div>
+
+            <div class="row">
+                <luar-textarea container-class="col-md-11" label="Obeservação" name="Observacao" required 
+                  ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.OBSERVACAO">
+                </luar-textarea>
+            </div>
+
+            <div class="row">
+                <luar-text container-class="col-md-11" label="Ação" name="ACAO" ng-disabled="true" 
+                  ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.DESCRICAO_ACAO">
+                </luar-text>
+            </div>
+
+            <div class="row">
+                <luar-text container-class="col-md-3" label="Telefone" name="TELEFONE" required 
+                  ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.TELEFONE">
+                </luar-text>
+            </div>
+
+            <div class="row" ng-show="ctrl.VisualizarData()">
+                <luar-textdata container-class="col-md-3" label="Data" name="DATA" required 
+                  ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.DATA">
+                </luar-textdata>
+
+                <luar-text container-class="col-md-2" label="Hora" name="HORA" 
+                   ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.HORA">
+                </luar-text>
+            </div>
+
+            <div class="row">
+                <luar-check-group class="col-md-5">
+                    <input luar-check label="Alta Prioridade" ng-false-value="'N'" ng-true-value="'S'" name="ALTA_PRIORIDADE" ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.ALTA_PRIORIDADE"
+                    />
+
+                    <input luar-check label="Enviar Manifesto" ng-false-value="'N'" ng-true-value="'S'" name="ENVIAR_MANIFESTO" ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.ENVIAR_MANIFESTO"
+                    />
+
+                    <input luar-check label="Pausar Entre Chamadas" ng-false-value="'N'" ng-true-value="'S'" name="PAUSAR_ENTRE_CHAMADAS" ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.PAUSAR_ENTRE_CHAMADAS"
+                    />
+                </luar-check-group>
+            </div>
+
+            <div class="row">
+                <luar-select container-class="col-md-4" label="Tipo de E-mail" 
+                   name="TIPO_EMAIL" ng-options="item.id as item.DESCRICAO for item in ::ctrl.DadosStart.ConfigMail"
+                    ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.TIPO_EMAIL">
+                </luar-select>
+                
+                <div ng-show="ctrl.ProximaLigacao.DadosLigacao.Finalizar.ACAO == 8">
+                  <luar-select container-class="col-md-6" label="Delegar Operador" 
+                     name="DelegarOperador" ng-options="item.id as item.NOME for item in ::ctrl.DadosStart.Operadores"
+                     ng-model="ctrl.ProximaLigacao.DadosLigacao.Finalizar.OperadorDelegar">
+                  </luar-select>
+                </div>
+            </div>
+
+        </fieldset>
+
+    </div>
+
+    <toaster-container
+       toaster-options="{'position-class': 'toast-bottom-right', 'time-out': 5000, mouseoverTimer: false, limit: 1}">        
+    </toaster-container>
+
+</form>

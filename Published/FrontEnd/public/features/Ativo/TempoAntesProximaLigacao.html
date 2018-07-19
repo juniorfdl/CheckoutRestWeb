@@ -1,0 +1,13 @@
+<form name="formFinalizar">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Aguarde - Buscando Próxima Ligação</h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+        <timer countdown="10" interval="1000" finish-callback="ctrl.FecharTempo()">
+            <h1 align="center">{{seconds}}</h1>
+        </timer>
+
+    </div>
+</form>

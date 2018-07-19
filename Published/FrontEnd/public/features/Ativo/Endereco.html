@@ -1,0 +1,51 @@
+<div class="col-md-12" ng-show="ctrl.MenuSelecionado == 'ENDEREÇO'">
+
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label>Rua/Avenida</label>
+            <input type="text" maxlength="100" ng-model="ctrl.ProximaLigacao.END_RUA" class="form-control">
+        </div>
+        <div class="col-md-4 form-group">
+            <label>Bairro</label>
+            <input type="text" maxlength="60" ng-model="ctrl.ProximaLigacao.BAIRRO" class="form-control">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label>Complemento</label>
+            <input type="text" maxlength="100" ng-model="ctrl.ProximaLigacao.COMPLEMENTO" class="form-control">
+        </div>
+        <div class="col-md-2 form-group">
+            <label>CEP</label>
+            <input type="text" maxlength="15" ng-model="ctrl.ProximaLigacao.CEP" class="form-control">
+        </div>
+
+        <div class="col-md-1 form-group">
+            <label>Estado</label>
+            <select class="form-control" name="EstadoCombo" ng-options="item.UF as item.UF for item in ::ctrl.UFLook" 
+              ng-model="ctrl.ProximaLigacao.ESTADO" ng-change="ctrl.CidadeLook = null">
+            </select>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <label>Cidade</label>
+            <select class="form-control" name="CidadeCombo"                       
+                   ng-options="item.NOME as item.NOME for item in ctrl.CidadeLook"         
+                   ng-model="ctrl.ProximaLigacao.CIDADE">
+            </select>                        
+        </div>
+
+        <div class="col-md-1">
+               <br>
+               <span class="pull-left">                       
+                   <p class="cursorpointer" ng-click="ctrl.PesquisarCidades()">
+                        <span class="glyphicon glyphicon-search" ></span> 
+                    </p>         
+               </span>
+        </div>
+
+    </div>
+
+</div>

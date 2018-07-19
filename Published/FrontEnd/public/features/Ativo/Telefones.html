@@ -1,0 +1,122 @@
+<div class="col" ng-show="ctrl.MenuSelecionado == 'TELEFONES'">
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label>Area</label>
+                <input type="text" maxlength="3" ng-model="ctrl.ProximaLigacao.AREA1" class="form-control">
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Fone 1</label>
+                <input type="text" maxlength="15" ng-model="ctrl.ProximaLigacao.FONE1" class="form-control">
+            </div>
+            <div class="col-md-5 form-group">
+                <label>Descrição Fone 1</label>
+                <input type="text" maxlength="30" ng-model="ctrl.ProximaLigacao.DESC_FONE1" class="form-control">
+
+            </div>
+
+            <div class="col col-md-2 col-botao form-group">
+                <br>
+                <input type="submit" 
+                ng-click="ctrl.AddFoneCampanha(ctrl.ProximaLigacao.AREA1, ctrl.ProximaLigacao.FONE1, ctrl.ProximaLigacao.DESC_FONE1)" 
+                value="ADD">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label>Area</label>
+                <input type="text" maxlength="3" ng-model="ctrl.ProximaLigacao.AREA2" class="form-control">
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Fone 2</label>
+                <input type="text" maxlength="15" ng-model="ctrl.ProximaLigacao.FONE2" class="form-control">
+            </div>
+            <div class="col-md-5 form-group">
+                <label>Descrição Fone 2</label>
+                <input type="text" maxlength="30" ng-model="ctrl.ProximaLigacao.DESC_FONE2" class="form-control">
+            </div>
+
+            <div class="col col-md-2 col-botao form-group">
+                <br>
+                <input type="submit" 
+                ng-click="ctrl.AddFoneCampanha(ctrl.ProximaLigacao.AREA2, ctrl.ProximaLigacao.FONE2, ctrl.ProximaLigacao.DESC_FONE2)" 
+                value="ADD">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label>Area</label>
+                <input type="text" maxlength="3" ng-model="ctrl.ProximaLigacao.AREA3" class="form-control">
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Fone 3</label>
+                <input type="text" maxlength="15" ng-model="ctrl.ProximaLigacao.FONE3" class="form-control">
+            </div>
+            <div class="col-md-5 form-group">
+                <label>Descrição Fone 3</label>
+                <input type="text" maxlength="30" ng-model="ctrl.ProximaLigacao.DESC_FONE3" class="form-control">
+            </div>
+
+            <div class="col col-md-2 col-botao form-group">
+                <br>
+                <input type="submit" 
+                ng-click="ctrl.AddFoneCampanha(ctrl.ProximaLigacao.AREA3, ctrl.ProximaLigacao.FONE3, ctrl.ProximaLigacao.DESC_FONE3)" 
+
+                value="ADD">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label>Area</label>
+                <input type="text" maxlength="3" ng-model="ctrl.ProximaLigacao.AREAFAX" class="form-control">
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>FAX</label>
+                <input type="text" maxlength="15" ng-model="ctrl.ProximaLigacao.FAX" class="form-control">
+            </div>
+            <div class="col-md-5 form-group">
+                <label>Descrição FAX</label>
+                <input type="text" maxlength="30" ng-model="ctrl.ProximaLigacao.DESCFAX" class="form-control">
+            </div>
+
+            <div class="col col-md-2 col-botao form-group">
+                <br>
+                <input type="submit" value="ADD" 
+                  ng-click="ctrl.AddFoneCampanha(ctrl.ProximaLigacao.AREAFAX, ctrl.ProximaLigacao.FAX, ctrl.ProximaLigacao.DESCFAX)" 
+                 value="ADD">
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-5">
+
+        <label>Fones Campanha (Máximo três)</label>
+        <table class="table table-condensed">
+            <thead>
+                <tr style="background-color:aqua">
+                    <th>Tipo Fone</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in ctrl.ProximaLigacao.FonesCampanha">
+
+                    <td>{{ item.TIPOFONE }}</td>
+                    <td>{{ item.TELEFONE }}</td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

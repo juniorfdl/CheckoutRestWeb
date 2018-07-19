@@ -1,0 +1,33 @@
+<div ng-show="ctrl.MenuSelecionado == 'AGENDA'">
+    <div class="col-md-12">
+
+        <table class="table table-condensed">
+            <thead>
+                <tr style="background-color:aqua; font-size: 12px ">
+                    <th>Proposta</th>
+                    <th>Data</th>
+                    <th>Campanha</th>
+                    <th>Dt Resultado</th>
+                    <th style="width: 200px">Resultado</th>
+                    <th>Telefone</th>
+                    <th>Operador</th>
+                    <th>Operador Ligação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-size: 12px" ng-repeat="item in ctrl.ProximaLigacao.DadosLigacao.AGENDA track by item.CODIGO"> 
+                    <td>{{ item.PROPOSTA }}</td>
+                    <td>{{ item.DT_AGENDAMENTO | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ item.CAMPANHA }}</td>
+                    <td>{{ item.DT_RESULTADO | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ item.RESULTADO }}</td>
+                    <td>{{ item.FONE1 }}</td>
+                    <td>{{ item.OPERADOR }}</td>
+                    <td>{{ item.OPERADOR_LIGACAO }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+        
+    </div> 
+</div>

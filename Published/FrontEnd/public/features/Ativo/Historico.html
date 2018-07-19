@@ -1,0 +1,45 @@
+<!-- ng-show="ctrl.MenuSelecionado == 'HISTÓRICO'" -->
+
+<div class="col-md-12">
+    <p class="fonte_08">HISTÓRICO</p>
+</div>
+
+<div>
+    <div class="col-md-12">
+
+        <table class="table table-condensed">
+            <thead>
+                <tr style="background-color:#6c1d6b; font-size: 12px; color: #ffffff;">
+                    <th>Campanha</th>
+                    <th>Tipo Ligação</th>
+                    <th>Operador</th>
+                    <th>Resultado</th>
+                    <th>Inicio</th>
+                    <th>Fim</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-size: 12px" 
+                ng-repeat="item in ctrl.ProximaLigacao.DadosLigacao.Historico track by item.CODIGO" 
+                ng-click="ctrl.HistoricoOBSERVACAO = item.OBSERVACAO">
+                    <td>{{ item.CAMPANHA }}</td>
+                    <td>{{ item.TIPO_LIGACAO }}</td>
+                    <td>{{ item.OPERADOR }}</td>
+                    <td>{{ item.RESULTADO }}</td>
+                    <td>{{ item.INICIO | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ item.FIM | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ item.TELEFONE }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="col-md-12">
+        <label>Observação Histórico</label>
+        <textarea rows="4" cols="50" ng-model="ctrl.HistoricoOBSERVACAO" class="form-control">
+        </textarea>
+    </div>
+
+</div>
