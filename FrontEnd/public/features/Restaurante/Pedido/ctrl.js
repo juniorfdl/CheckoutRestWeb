@@ -40,13 +40,13 @@ var App;
                 this.cssMesa = function (pmesa) {
 
                     if (pmesa.MESACSTATUS == 'F') {
-                        return 'btn btn-success btn-lg badge-pill active';
+                        return 'btn btn-success btn-lg badge-pill active btn-mesa';
                     }
                     else if (pmesa.MESACSTATUS == 'P') {
-                        return 'btn btn-danger btn-lg badge-pill active';
+                        return 'btn btn-danger btn-lg badge-pill active btn-mesa';
                     }
                     else if (pmesa.MESACSTATUS == 'E') {
-                        return 'btn btn-yellow btn-lg badge-pill active ';
+                        return 'btn btn-yellow btn-lg badge-pill active btn-mesa ';
                     }
                 }
 

@@ -18,6 +18,11 @@
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
   }
+
+.btn-mesa{
+    white-space: normal;
+    font-size: initial; 
+}  
   
 /* Set width on the form input elements since they're 100% wide by default */
 /*input,
