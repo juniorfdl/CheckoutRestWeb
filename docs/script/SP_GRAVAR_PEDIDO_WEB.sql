@@ -1,14 +1,16 @@
-create procedure SP_GRAVAR_PEDIDO_WEB (
+CREATE OR ALTER procedure SP_GRAVAR_PEDIDO_WEB (
     PID integer,
     COD_USR integer,
     NR_MESA integer,
     VALOR numeric(15,2),
     OBS varchar(60),
-    termicod integer)
+    TERMICOD integer)
 returns (
     ID integer)
 as
-  declare variable cliea13id varchar(100);
+ declare variable CLIEA13ID varchar(100);
+ declare variable empricod integer;
+ declare variable plrcicod integer;
 begin
 
   if (pid = 0) then
@@ -19,9 +21,9 @@ begin
   else
    id = pid;
 
-  for select cliea13id from terminal
+  for select cliea13id, empricod, plrcicod from terminal
       where termicod = :termicod
-  into :cliea13id do begin end
+  into :cliea13id, :empricod, :plrcicod do begin end
 
   if (coalesce(id,0) = 0) then
     id = 1;
@@ -31,9 +33,9 @@ begin
 
   update or Insert into PREVENDA
     (TERMICOD, PRVDICOD, VENDICOD, PRVDN2TOTITENS,
-     CLIENTEOBS, mesaicod, cliea13id, CLIENTENOME, PDVCPRECONCLU, PRVDCIMPORT,pdvddhvenda)
+     CLIENTEOBS, mesaicod, cliea13id, CLIENTENOME, PDVCPRECONCLU, PRVDCIMPORT,pdvddhvenda, plrcicod, empricod)
   Values (:termicod, :id, :nr_mesa, :valor, trim(:OBS), :nr_mesa, :cliea13id,
-  'CONSUMIDOR', 'S','N',current_timestamp);
+  'CONSUMIDOR', 'S','N',current_timestamp, :empricod, :plrcicod);
 
   suspend;
-end
+end;
