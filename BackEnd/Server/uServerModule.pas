@@ -349,12 +349,26 @@ end;
 function TORMBr.Empresa(id: String): TJSONArray;
 var
   LMasterList: TObjectList<TSisEmpresa>;
+  vobj:TSisEmpresa;
 begin
   ControleDeSessao;
 
   LMasterList := TObjectList<TSisEmpresa>.Create;
   try
-    LMasterList := FContainerEmpresa.Find;
+
+    with FConnection.ExecuteSQL(' select terma60descr, termicod from TERMINAL order by TERMA60DESCR ') do
+    begin
+      while NotEof do
+      begin
+        vobj := TSisEmpresa.Create;
+        vobj.id := FieldByName('termicod').AsInteger;
+        vobj.FANTASIA := FieldByName('terma60descr').AsString;
+        vobj.CEMP := FieldByName('termicod').AsInteger;
+        LMasterList.Add(vobj);
+      end;
+    end;
+
+    //LMasterList := FContainerEmpresa.Find;
     Result := TORMBrJSONUtil.JSONStringToJSONArray<TSisEmpresa>(LMasterList);
   finally
     LMasterList.Free;

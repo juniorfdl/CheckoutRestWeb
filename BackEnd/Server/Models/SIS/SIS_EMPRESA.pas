@@ -17,7 +17,7 @@ uses
 type
   [Entity]
   [Table('TERMINAL','')]
-  [PrimaryKey('termicod', AutoInc, NoSort, True, 'Chave primária')]
+  [PrimaryKey('termicod', AutoInc, NoSort, false, 'Chave primária')]
   TSisEmpresa = class
   private
     { Private declarations }
@@ -33,9 +33,9 @@ type
     [Dictionary('termicod','Mensagem de validação','','','',taCenter)]
     property id: Integer read fid write fid;
 
-    [Column('TERMA60DESCR', ftString, 60)]
-    [Dictionary('TERMA60DESCR','Mensagem de validação','','','',taLeftJustify)]
-    property NOME: String read FNOME write FNOME;
+//    [Column('TERMA60DESCR', ftString, 60)]
+//    [Dictionary('TERMA60DESCR','Mensagem de validação','','','',taLeftJustify)]
+//    property NOME: String read FNOME write FNOME;
 
     [Column('TERMA60DESCR', ftString, 60)]
     [Dictionary('TERMA60DESCR','Mensagem de validação','','','',taLeftJustify)]

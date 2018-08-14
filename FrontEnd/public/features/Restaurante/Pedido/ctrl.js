@@ -48,6 +48,10 @@ var App;
                     else if (pmesa.MESACSTATUS == 'E') {
                         return 'btn btn-yellow btn-lg badge-pill active btn-mesa ';
                     }
+                    else{
+                        return 'btn btn-success btn-lg badge-pill active btn-mesa';  
+                    }
+                    
                 }
 
                 this.IniciarPedido = function () {
