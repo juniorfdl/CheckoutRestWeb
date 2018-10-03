@@ -71,7 +71,7 @@ type
 implementation
 
 uses
-  uFormServer;
+  uFormServer, System.Types, System.StrUtils;
 
 {$R *.dfm}
 { TServerMethods1 }
@@ -137,8 +137,10 @@ var
   LMasterList: TObjectList<TPEDIDO>;
   vPed: TPEDIDO;
   vstr, vOBS, vNomeUsr, vEmpresa: String;
+  vListaSabores: TStringDynArray;
   vProd: TPRODUTO;
-  ii: Integer;
+  vSabor: TSABORES;
+  ii, iSabor: Integer;
   vInsert, vItemImpresso: Boolean;
   vlistImp: TStringList;
   F: TIniFile;
@@ -211,6 +213,31 @@ begin
     begin
       vlistImp.Add('</c><n></ae>' + FormatFloat('000', vProd.QTD) + ' ' +
         vProd.PRODA60DESCR + '</n>');
+
+      if (vProd.ListaSabores <> '') then
+      begin
+        vListaSabores := SplitString(vProd.ListaSabores,';');
+
+        for iSabor := Low(vListaSabores) to High(vListaSabores) do
+        begin
+          if (vListaSabores[iSabor] <> '') then
+          begin
+            vlistImp.Add('</c><n></ae>' + vListaSabores[iSabor] + '</n>');
+          end;
+        end;
+      end;
+
+//      if Assigned(vProd.Sabores) then
+//      begin
+//        for vSabor in vProd.Sabores do
+//        begin
+//          if vSabor.Usar = True then
+//          begin
+//            vlistImp.Add('</c><n></ae>' + vSabor.Descricao + '</n>');
+//          end;
+//        end;
+//      end;
+
       vItemImpresso := True;
 
       vstr := ' UPDATE prevendaitem SET IMPRESSO = ''S'' where prvdicod = ' +
@@ -406,6 +433,8 @@ var
   LGrupoList: TObjectList<TGRUPO>;
   LProdutoList: TObjectList<TPRODUTO>;
   vGrupo: TGRUPO;
+  vProduto: TPRODUTO;
+  vSabor: TSABORES;
   v, vsql: String;
   vMesa: TCONFIG_RESTAURANTE;
 begin
@@ -441,6 +470,21 @@ begin
       begin
         vGrupo.Produtos := TContainerObjectSet<TPRODUTO>.Create(FConnection)
           .FindWhere(' GRUPICOD = ' + IntToStr(vGrupo.id));
+
+        for vProduto in vGrupo.Produtos do
+        begin
+          with FConnection.ExecuteSQL(' select B.id_sabor, B.descricao from PRODUTO_SABORES A '
+            +' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = '+ vProduto.id.ToString) do
+          begin
+            while NotEof do
+            begin
+              vSabor := TSABORES.Create;
+              vSabor.id := FieldByName('id_sabor').AsInteger;
+              vSabor.Descricao := FieldByName('descricao').AsString;
+              vProduto.Sabores.Add(vSabor);
+            end;
+          end;
+        end;
       end;
 
       v := TORMBrJson.ObjectToJsonString(LMasterList[0]);
@@ -541,6 +585,8 @@ var
   item: TPEDIDO;
   vstr: String;
   vProd: TPRODUTO;
+  vSabor: TSABORES;
+  vResult: IDBResultSet;
 begin
   ControleDeSessao;
   item := TPEDIDO.Create;
@@ -576,6 +622,18 @@ begin
       vProd.PRODN3VLRVENDA := FieldByName('PVITN3VLRUNIT').AsFloat;
       vProd.QTD := FieldByName('PVITN3QTD').AsInteger;
       vProd.IMPRESSO := FieldByName('IMPRESSO').AsString;
+
+      vResult := FConnection.ExecuteSQL(' select B.id_sabor, B.descricao from PRODUTO_SABORES A '
+        +' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = '+ vProd.id.ToString);
+
+      while vResult.NotEof do
+      begin
+        vSabor := TSABORES.Create;
+        vSabor.id := vResult.FieldByName('id_sabor').AsInteger;
+        vSabor.Descricao := vResult.FieldByName('descricao').AsString;
+        vProd.Sabores.Add(vSabor);
+      end;
+
       item.Produtos.Add(vProd);
     end;
   end;

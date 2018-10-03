@@ -4,11 +4,10 @@
     <div class="btn btn-light btn-outline-danger" ng-show="ctrl.Pedido.Mesa">
         Mesa: {{ctrl.Pedido.Mesa}}
         R$ {{ctrl.Pedido.Total| currency:'':2}}
-        <div ng-show="ctrl.Pedido.id > 0">Pedido: {{ctrl.Pedido.id}}</div>        
+        <div ng-show="ctrl.Pedido.id > 0">Pedido: {{ctrl.Pedido.id}}</div>
     </div>
 
-    <button ng-show="ctrl.Pedido.Produtos.length > 0" class="btn btn-light"
-            ng-click="ctrl.Resumo()">
+    <button ng-show="ctrl.Pedido.Produtos.length > 0" class="btn btn-light" ng-click="ctrl.Resumo()">
         Resumo
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,8 +29,7 @@
     <div class="col-12 col-md-12">
 
         <div class="row col-md-12">
-            <luar_Textarea ng-model="ctrl.Pedido.OBS" maxlength="60" label="Observação"
-                           style="width: 600px">
+            <luar_Textarea ng-model="ctrl.Pedido.OBS" maxlength="60" label="Observação" style="width: 600px">
             </luar_Textarea>
         </div>
 
@@ -62,16 +60,14 @@
 <!--mesa-->
 <div class="container" ng-show="!ctrl.VisualizarProdutos && !ctrl.VisualizarGrupo">
     <div class="col-12 col-md-12">
-        <input id="pesquisarMesa" type="text" class="form-control" name="pesquisarMesa"
-               ng-model="ctrl.Pedido.FiltroMesa" placeholder="Pesquisar">
+        <input id="pesquisarMesa" type="text" class="form-control" name="pesquisarMesa" ng-model="ctrl.Pedido.FiltroMesa"
+            placeholder="Pesquisar">
     </div>
     <div class="col-12 col-md-12">
         <div class="row">
-            <div class="col-3 col-lg-3 blockquote"
-                 ng-repeat="mesa in ctrl.CONFIG_RESTAURANTE | orderBy:'OBS' |filter:ctrl.Pedido.FiltroMesa ">
+            <div class="col-3 col-lg-3 blockquote" ng-repeat="mesa in ctrl.CONFIG_RESTAURANTE | orderBy:'OBS' |filter:ctrl.Pedido.FiltroMesa ">
                 <br />
-                <button type="button" style="height:100px"
-                        ng-click="ctrl.SetMesa(mesa)" ng-class="ctrl.cssMesa(mesa)">
+                <button type="button" style="height:100px" ng-click="ctrl.SetMesa(mesa)" ng-class="ctrl.cssMesa(mesa)">
                     {{mesa.OBS}}
                 </button>
                 <br />
@@ -83,16 +79,14 @@
 <!--grupos-->
 <div class="container" ng-show="ctrl.VisualizarGrupo && !ctrl.VerResumo">
     <div class="col-12 col-md-12">
-        <input id="pesquisarGrupo" type="text" class="form-control" name="pesquisarGrupo"
-               ng-model="ctrl.FiltroGrupo" placeholder="Pesquisar">
+        <input id="pesquisarGrupo" type="text" class="form-control" name="pesquisarGrupo" ng-model="ctrl.FiltroGrupo"
+            placeholder="Pesquisar">
     </div>
     <div class="col-12 col-md-12">
         <div class="row">
-            <div class="col-4 col-lg-4 blockquote"
-                 ng-repeat="grupo in $root.currentUser.Grupos| orderBy:'GRUPA60DESCR' |filter:ctrl.FiltroGrupo ">
+            <div class="col-4 col-lg-4 blockquote" ng-repeat="grupo in $root.currentUser.Grupos| orderBy:'GRUPA60DESCR' |filter:ctrl.FiltroGrupo ">
                 <br />
-                <button type="button" class="btn btn-primary btn-lg active" style="height:100px; width: 150px"
-                        ng-click="ctrl.SetGrupo(grupo)">
+                <button type="button" class="btn btn-primary btn-lg active" style="height:100px; width: 150px" ng-click="ctrl.SetGrupo(grupo)">
                     {{grupo.GRUPA60DESCR}}
                 </button>
                 <br />
@@ -101,19 +95,18 @@
     </div>
 </div>
 
-<div class="container" ng-show="ctrl.VisualizarProdutos && !ctrl.VerResumo">
+<div class="container" ng-show="ctrl.VisualizarProdutos && !ctrl.VerResumo && !ctrl.VerSabores">
 
     <div class="col-12 col-md-12">
         <div class="row">
             <div class="col-3 col-md-3">
-                <button type="button" class="btn btn-primary"
-                         ng-click="ctrl.AbrirGrupo()">
+                <button type="button" class="btn btn-primary" ng-click="ctrl.AbrirGrupo()">
                     Mostrar Grupos
                 </button>
             </div>
             <div class="col-9 col-md-9" ng-show="ctrl.Produtos.length > 0">
-                <input id="pesquisarProduto" type="text" class="form-control" name="pesquisarProduto"
-                       ng-model="ctrl.FiltroProduto" placeholder="Pesquisar">
+                <input id="pesquisarProduto" type="text" class="form-control" name="pesquisarProduto" ng-model="ctrl.FiltroProduto"
+                    placeholder="Pesquisar">
             </div>
         </div>
     </div>
@@ -127,16 +120,56 @@
                     <h2>{{produto.PRODA60DESCR}}</h2>
                     <h2>R$: {{produto.PRODN3VLRVENDA | currency:'':2}}</h2>
                     <p>
-                        <a class="btn btn-primary" role="button" ng-click="ctrl.AddProduto(produto)">+</a>
+                        <a class="btn btn-primary" role="button" ng-click="ctrl.AddProduto(produto, 1)">+</a>
                         <a ng-show="produto.QTD > 0" class="btn btn-danger" role="button" ng-click="ctrl.DelProduto(produto)">-</a>
                         <a ng-show="produto.QTD > 0" class="btn btn-info" role="button">{{produto.QTD}} </a>
                     </p>
                 </div>
-            </div><!--/row-->
-        </div><!--/span-->
+            </div>
+            <!--/row-->
+        </div>
+        <!--/span-->
 
 
-    </div><!--/row-->
+    </div>
+    <!--/row-->
 
 
-</div><!--/.container-->
+</div>
+<!--/.container-->
+
+
+<!--Sabores-->
+<div class="container" ng-show="ctrl.VerSabores">
+
+    <div class="col-md-12">
+
+        <table class="table table-responsive">
+            <thead>
+                <tr style="background-color:aqua">
+                    <th>Sabor</th>
+                    <th>Selecionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in ctrl.ProdutoAtual.Sabores track by item.Descricao">
+                    <td>{{ item.Descricao }}</td>                    
+                    <td>  
+                        <!-- <a class="btn btn-primary " role="button" ng-click="ctrl.AddProduto(item)">+</a> -->
+                        <input class="cursorpointer" type="checkbox" ng-model="item.Usar">
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="col-md-12 form-group">
+        <button class="btn btn-sm btn-primary" style="width: 110px" ng-click="ctrl.FecharSabores()">
+            <span class="glyphicon glyphicon-ok-sign">
+            </span> OK
+        </button>
+    </div>
+
+</div>

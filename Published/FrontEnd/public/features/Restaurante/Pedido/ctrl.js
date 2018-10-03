@@ -10,12 +10,13 @@ var App;
     (function (Controllers) {
         'use strict';
         var CrudpedidoCtrl = (function (_super) {
-
+            
             __extends(CrudpedidoCtrl, _super);
-            function CrudpedidoCtrl($location, $rootScope, api, CrudpedidoService, lista, $q, $scope, SweetAlert) {
+            function CrudpedidoCtrl($location, $rootScope, api, CrudpedidoService, lista, $q, $scope, SweetAlert, $modal) {
                 var _this = this;
                 _super.call(this);
 
+                this.$modal = $modal;
                 this.$location = $location;
                 this.SweetAlert = SweetAlert;
                 this.$rootScope = $rootScope;
@@ -143,6 +144,7 @@ var App;
                                             if (_this.Produtos[iP].id == dados.Produtos[i].id) {
                                                 _this.Produtos[iP].QTD = dados.Produtos[i].QTD - 1;
                                                 _this.Produtos[iP].IMPRESSO = dados.Produtos[i].IMPRESSO;
+                                                _this.Produtos[iP].Sabores = dados.Produtos[i].Sabores;
                                                 _this.AddProduto(_this.Produtos[iP]);
                                                 break;
                                             }
@@ -195,12 +197,17 @@ var App;
 
                 }
 
-                this.AddProduto = function (Produto) {
+                this.AddProduto = function (Produto, ptipo) {
                     debugger;
                     if (!Produto.QTD)
                         Produto.QTD = 0;
 
                     Produto.QTD++;
+
+                    if (ptipo == 1){
+                        _this.ProdutoAtual = Produto;  
+                        _this.AbrirModalSabores();
+                    }
 
                     for (var i = 0; i < _this.Pedido.Produtos.length; i++) {
                         if (_this.Pedido.Produtos[i].id === Produto.id) {
@@ -208,7 +215,7 @@ var App;
                             _this.GetTotal();
                             return;
                         }
-                    }
+                    }                    
 
                     _this.Pedido.Produtos.push(Produto)
                     _this.GetTotal();
@@ -238,8 +245,6 @@ var App;
                         for (var i = 0; i < _this.Produtos.length; i++) {
                             _this.Produtos[i].QTD = 0;
                         }
-
-
                 }
 
                 this.Resumo = function () {
@@ -254,6 +259,27 @@ var App;
                 this.AbrirGrupo = function () {
                     _this.VisualizarProdutos = false;
                     _this.VisualizarGrupo = true;
+                }
+
+                this.AbrirModalSabores = function () {
+                    this.VerSabores = true;                    
+                }
+
+                this.FecharSabores = function () {                    
+                    this.VerSabores = false;
+                    this.ProdutoAtual.ListaSabores = '';
+                    for (var i = 0; i < this.ProdutoAtual.Sabores.length; i++) {
+
+                        if (this.ProdutoAtual.Sabores[i].Usar){
+                            this.ProdutoAtual.ListaSabores = 
+                              this.ProdutoAtual.ListaSabores + ';' + this.ProdutoAtual.Sabores[i].Descricao;
+                        }
+                    }
+
+                };
+
+                this.AddSabor = function(item){
+                    item.Usar = 'S';
                 }
 
             }
