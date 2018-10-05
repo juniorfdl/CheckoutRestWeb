@@ -1,6 +1,6 @@
 ﻿<!--<luar-crud crud="ctrl" title="Atendimento Mesa">-->
 <!--header-->
-<nav class="col-12 navbar navbar-toggler-right fixed-top navbar-default bg-inverse">
+<nav class="col col-12 navbar navbar-toggler-right fixed-top navbar-default bg-inverse">
     <div class="btn btn-light btn-outline-danger" ng-show="ctrl.Pedido.Mesa">
         Mesa: {{ctrl.Pedido.Mesa}}
         R$ {{ctrl.Pedido.Total| currency:'':2}}
@@ -26,7 +26,7 @@
 <br />
 <!--resumo-->
 <div class="container" ng-show="ctrl.VerResumo">
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
 
         <div class="row col-md-12">
             <luar_Textarea ng-model="ctrl.Pedido.OBS" maxlength="60" label="Observação" style="width: 600px">
@@ -59,13 +59,13 @@
 
 <!--mesa-->
 <div class="container" ng-show="!ctrl.VisualizarProdutos && !ctrl.VisualizarGrupo">
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
         <input id="pesquisarMesa" type="text" class="form-control" name="pesquisarMesa" ng-model="ctrl.Pedido.FiltroMesa"
             placeholder="Pesquisar">
     </div>
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
         <div class="row">
-            <div class="col-3 col-lg-3 blockquote" ng-repeat="mesa in ctrl.CONFIG_RESTAURANTE | orderBy:'OBS' |filter:ctrl.Pedido.FiltroMesa ">
+            <div class="col col-3 col-lg-3 blockquote" ng-repeat="mesa in ctrl.CONFIG_RESTAURANTE | orderBy:'OBS' |filter:ctrl.Pedido.FiltroMesa ">
                 <br />
                 <button type="button" style="height:100px" ng-click="ctrl.SetMesa(mesa)" ng-class="ctrl.cssMesa(mesa)">
                     {{mesa.OBS}}
@@ -78,13 +78,13 @@
 
 <!--grupos-->
 <div class="container" ng-show="ctrl.VisualizarGrupo && !ctrl.VerResumo">
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
         <input id="pesquisarGrupo" type="text" class="form-control" name="pesquisarGrupo" ng-model="ctrl.FiltroGrupo"
             placeholder="Pesquisar">
     </div>
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
         <div class="row">
-            <div class="col-4 col-lg-4 blockquote" ng-repeat="grupo in $root.currentUser.Grupos| orderBy:'GRUPA60DESCR' |filter:ctrl.FiltroGrupo ">
+            <div class="col col-4 col-lg-4 blockquote" ng-repeat="grupo in $root.currentUser.Grupos| orderBy:'GRUPA60DESCR' |filter:ctrl.FiltroGrupo ">
                 <br />
                 <button type="button" class="btn btn-primary btn-lg active" style="height:100px; width: 150px" ng-click="ctrl.SetGrupo(grupo)">
                     {{grupo.GRUPA60DESCR}}
@@ -97,7 +97,7 @@
 
 <div class="container" ng-show="ctrl.VisualizarProdutos && !ctrl.VerResumo && !ctrl.VerSabores">
 
-    <div class="col-12 col-md-12">
+    <div class="col col-12 col-md-12">
         <div class="row">
             <div class="col-3 col-md-3">
                 <button type="button" class="btn btn-primary" ng-click="ctrl.AbrirGrupo()">
@@ -114,9 +114,9 @@
     <div class="row">
         <!--produtos-->
         <h4 ng-show="ctrl.Produtos.length == 0">Nenhum produto em: {{ctrl.GrupoSelecionado}}</h4>
-        <div class="col-12 col-md-9">
+        <div class="col col-12 col-md-9">
             <div class="row">
-                <div class="col-6 col-lg-4" ng-repeat="produto in ctrl.Produtos| orderBy:'PRODA60DESCR' |filter:ctrl.FiltroProduto ">
+                <div class="col col-6 col-lg-4" ng-repeat="produto in ctrl.Produtos| orderBy:'PRODA60DESCR' |filter:ctrl.FiltroProduto ">
                     <h2>{{produto.PRODA60DESCR}}</h2>
                     <h2>R$: {{produto.PRODN3VLRVENDA | currency:'':2}}</h2>
                     <p>
@@ -142,7 +142,7 @@
 <!--Sabores-->
 <div class="container" ng-show="ctrl.VerSabores">
 
-    <div class="col-md-12">
+    <div class="col col-md-12">
 
         <table class="table table-responsive">
             <thead>
@@ -165,7 +165,7 @@
 
     </div>
 
-    <div class="col-md-12 form-group">
+    <div class="col col-md-12 form-group">
         <button class="btn btn-sm btn-primary" style="width: 110px" ng-click="ctrl.FecharSabores()">
             <span class="glyphicon glyphicon-ok-sign">
             </span> OK

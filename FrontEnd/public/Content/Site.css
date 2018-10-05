@@ -23,7 +23,13 @@
     white-space: normal;
     font-size: initial; 
 }  
-  
+
+.col {
+    /*-ms-flex: 0 0 25%;
+     flex: 0 0 25%; */
+     max-width: 100%; 
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 /*input,
 select,
