@@ -204,7 +204,7 @@ var App;
 
                     Produto.QTD++;
 
-                    if (ptipo == 1){
+                    if (ptipo == 1 && Produto.Sabores && Produto.Sabores.length > 0){
                         _this.ProdutoAtual = Produto;  
                         _this.AbrirModalSabores();
                     }

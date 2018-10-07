@@ -142,21 +142,21 @@
 <!--Sabores-->
 <div class="container" ng-show="ctrl.VerSabores">
 
+    <h3>Selecione os Sabores</h2>
+
     <div class="col col-md-12">
 
         <table class="table table-responsive">
-            <thead>
+            <!-- <thead>
                 <tr style="background-color:aqua">
-                    <th>Sabor</th>
-                    <th>Selecionar</th>
+                    <th></th>
                 </tr>
-            </thead>
+            </thead> -->
             <tbody>
                 <tr ng-repeat="item in ctrl.ProdutoAtual.Sabores track by item.Descricao">
-                    <td>{{ item.Descricao }}</td>                    
-                    <td>  
-                        <!-- <a class="btn btn-primary " role="button" ng-click="ctrl.AddProduto(item)">+</a> -->
-                        <input class="cursorpointer" type="checkbox" ng-model="item.Usar">
+                    <td style="padding-left: 5%;">
+                         <input type=checkbox ng-model="item.Usar"> 
+                            {{ item.Descricao }} 
                     </td>
                 </tr>
             </tbody>
