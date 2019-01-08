@@ -262,7 +262,10 @@ var App;
                 }
 
                 this.AbrirModalSabores = function () {
-                    this.VerSabores = true;                    
+					if (this.ProdutoAtual.Sabores && this.ProdutoAtual.Sabores.length > 0)
+					{
+                      this.VerSabores = true;     
+                    }					
                 }
 
                 this.FecharSabores = function () {                    
