@@ -74,7 +74,7 @@ var App;
 
                         _this.Pedido.ReImprimir = 'N';
                         _this.SweetAlert.swal({
-                            title: "Deseja reimprimir itens j? impresso?",
+                            title: "Deseja reimprimir itens ja impresso?",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -204,7 +204,7 @@ var App;
 
                     Produto.QTD++;
 
-                    if (ptipo == 1){
+                    if (ptipo == 1 && Produto.Sabores && Produto.Sabores.length > 0){
                         _this.ProdutoAtual = Produto;  
                         _this.AbrirModalSabores();
                     }
@@ -262,10 +262,7 @@ var App;
                 }
 
                 this.AbrirModalSabores = function () {
-					if (this.ProdutoAtual.Sabores && this.ProdutoAtual.Sabores.length > 0)
-					{
-                      this.VerSabores = true;     
-                    }					
+                    this.VerSabores = true;                    
                 }
 
                 this.FecharSabores = function () {                    

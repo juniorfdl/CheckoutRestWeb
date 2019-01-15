@@ -53,6 +53,7 @@ type
     procedure RecoversKeys;
     procedure ControleDeSessao;
     function ConfirmarPedido(AValue: TJSONObject): TJSONObject;
+    function GravarItemImpresso(pTERMICOD, pPRVDICOD, pPRODICOD:Integer; pQTDE: Double; pReimprimir:String):Double;
   public
     { Public declarations }
     function master(AID: Integer = 0): TJSONArray;
@@ -144,6 +145,7 @@ var
   vInsert, vItemImpresso: Boolean;
   vlistImp: TStringList;
   F: TIniFile;
+  vQtdeImpressa:Double;
 begin
   ControleDeSessao;
   vItemImpresso := False;
@@ -209,9 +211,11 @@ begin
     //if (vProd.IMPRESSO <> 'S') then
       FConnection.ExecuteSQL(vstr);
 
-    if (vProd.IMPRESSO <> 'S') or (vPed.ReImprimir = 'S') then
+    vQtdeImpressa := GravarItemImpresso(vPed.termicod, vPed.id, vProd.id, vProd.QTD, vPed.ReImprimir);
+
+    if vQtdeImpressa > 0 then //(vProd.IMPRESSO <> 'S') or (vPed.ReImprimir = 'S') then
     begin
-      vlistImp.Add('</c><n></ae>' + FormatFloat('000', vProd.QTD) + ' ' +
+      vlistImp.Add('</c><n></ae>' + FormatFloat('000', vQtdeImpressa) + ' ' +
         vProd.PRODA60DESCR + '</n>');
 
       if (vProd.ListaSabores <> '') then
@@ -423,6 +427,43 @@ begin
     Result := TORMBrJSONUtil.JSONStringToJSONArray<TSisUsuario>(LMasterList);
   finally
     LMasterList.Free;
+  end;
+end;
+
+function TORMBr.GravarItemImpresso(pTERMICOD, pPRVDICOD, pPRODICOD: Integer;
+  pQTDE: Double; pReimprimir: String): Double;
+var
+  vQtdeJaImpressa:Double;
+begin
+
+  if pReimprimir = 'S' then
+  begin
+    Result := pQTDE;
+    FConnection.ExecuteDirect(' DELETE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = '+pTERMICOD.ToString
+      +' AND PRVDICOD = '+pPRVDICOD.ToString+' AND PRODICOD = '+pPRODICOD.ToString);
+  end
+  else begin
+    vQtdeJaImpressa := 0;
+    with FConnection.ExecuteSQL(' SELECT SUM(QTDE) AS QTDE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = '+pTERMICOD.ToString
+      +' AND PRVDICOD = '+pPRVDICOD.ToString+' AND PRODICOD = '+pPRODICOD.ToString) do
+    begin
+      if RecordCount > 0 then
+      begin
+        vQtdeJaImpressa := FieldByName('QTDE').AsFloat;
+      end;
+    end;
+
+    if vQtdeJaImpressa > pQTDE then
+      Result := 0
+    else
+      Result := pQTDE - vQtdeJaImpressa;
+  end;
+
+  if Result > 0 then
+  begin
+    FConnection.ExecuteDirect(' INSERT INTO PREVENDAITEM_IMPRESSO(TERMICOD, PRVDICOD, PRODICOD, QTDE) VALUES('
+      +pTERMICOD.ToString+','+pPRVDICOD.ToString+','+pPRODICOD.ToString
+      +','+QuotedStr(StringReplace(FormatFloat('0.00', Result),',','.',[]))+') ');
   end;
 end;
 

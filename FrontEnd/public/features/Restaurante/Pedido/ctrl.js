@@ -74,7 +74,7 @@ var App;
 
                         _this.Pedido.ReImprimir = 'N';
                         _this.SweetAlert.swal({
-                            title: "Deseja reimprimir itens j? impresso?",
+                            title: "Deseja reimprimir itens ja impresso?",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
