@@ -53,7 +53,8 @@ type
     procedure RecoversKeys;
     procedure ControleDeSessao;
     function ConfirmarPedido(AValue: TJSONObject): TJSONObject;
-    function GravarItemImpresso(pTERMICOD, pPRVDICOD, pPRODICOD:Integer; pQTDE: Double; pReimprimir:String):Double;
+    function GravarItemImpresso(pTERMICOD, pPRVDICOD, pPRODICOD: Integer;
+      pQTDE: Double; pReimprimir: String): Double;
   public
     { Public declarations }
     function master(AID: Integer = 0): TJSONArray;
@@ -72,7 +73,7 @@ type
 implementation
 
 uses
-  uFormServer, System.Types, System.StrUtils;
+  uFormServer, System.types, System.StrUtils;
 
 {$R *.dfm}
 { TServerMethods1 }
@@ -145,7 +146,7 @@ var
   vInsert, vItemImpresso: Boolean;
   vlistImp: TStringList;
   F: TIniFile;
-  vQtdeImpressa:Double;
+  vQtdeImpressa: Double;
 begin
   ControleDeSessao;
   vItemImpresso := False;
@@ -188,7 +189,8 @@ begin
 
   vstr := 'select id from SP_GRAVAR_PEDIDO_WEB(' + vPed.id.ToString + ', ' +
     vPed.CodUsr.ToString + ', ' + vPed.MESA.ToString + ', ' +
-    vPed.Total.ToString().Replace(',', '.') + ' , ' + vOBS + ',' + vPed.termicod.ToString + ')';
+    vPed.Total.ToString().Replace(',', '.') + ' , ' + vOBS + ',' +
+    vPed.termicod.ToString + ')';
 
   vPed.id := FConnection.ExecuteSQL(vstr).FieldByName('id').AsInteger;
 
@@ -206,21 +208,24 @@ begin
     vstr := 'select id from SP_GRAVAR_PEDIDO_ITEM_WEB(' + vPed.id.ToString +
       ', ' + vPed.CodUsr.ToString + ', ' + vPed.MESA.ToString + ', ' +
       vProd.PRODN3VLRVENDA.ToString().Replace(',', '.') + ', ' +
-      IntToStr(vProd.QTD) + ',' + ii.ToString + ', ' + IntToStr(vProd.id) + ',' + vPed.termicod.ToString + ')';
+      IntToStr(vProd.QTD) + ',' + ii.ToString + ', ' + IntToStr(vProd.id) + ','
+      + vPed.termicod.ToString + ')';
 
-    //if (vProd.IMPRESSO <> 'S') then
-      FConnection.ExecuteSQL(vstr);
+    // if (vProd.IMPRESSO <> 'S') then
+    FConnection.ExecuteSQL(vstr);
 
-    vQtdeImpressa := GravarItemImpresso(vPed.termicod, vPed.id, vProd.id, vProd.QTD, vPed.ReImprimir);
+    vQtdeImpressa := GravarItemImpresso(vPed.termicod, vPed.id, vProd.id,
+      vProd.QTD, vPed.ReImprimir);
 
-    if vQtdeImpressa > 0 then //(vProd.IMPRESSO <> 'S') or (vPed.ReImprimir = 'S') then
+    if vQtdeImpressa > 0 then
+    // (vProd.IMPRESSO <> 'S') or (vPed.ReImprimir = 'S') then
     begin
       vlistImp.Add('</c><n></ae>' + FormatFloat('000', vQtdeImpressa) + ' ' +
         vProd.PRODA60DESCR + '</n>');
 
       if (vProd.ListaSabores <> '') then
       begin
-        vListaSabores := SplitString(vProd.ListaSabores,';');
+        vListaSabores := SplitString(vProd.ListaSabores, ';');
 
         for iSabor := Low(vListaSabores) to High(vListaSabores) do
         begin
@@ -231,16 +236,16 @@ begin
         end;
       end;
 
-//      if Assigned(vProd.Sabores) then
-//      begin
-//        for vSabor in vProd.Sabores do
-//        begin
-//          if vSabor.Usar = True then
-//          begin
-//            vlistImp.Add('</c><n></ae>' + vSabor.Descricao + '</n>');
-//          end;
-//        end;
-//      end;
+      // if Assigned(vProd.Sabores) then
+      // begin
+      // for vSabor in vProd.Sabores do
+      // begin
+      // if vSabor.Usar = True then
+      // begin
+      // vlistImp.Add('</c><n></ae>' + vSabor.Descricao + '</n>');
+      // end;
+      // end;
+      // end;
 
       vItemImpresso := True;
 
@@ -319,7 +324,7 @@ begin
     vsql := ' select first(1) prvdicod from prevenda where PRVDCIMPORT <> ''S'' and mesaicod = '
       + vMesa.id.ToString;
 
-    vMESA.MESA := vMesa.id;
+    vMesa.MESA := vMesa.id;
 
     with FConnection.ExecuteSQL(vsql) do
     begin
@@ -380,14 +385,15 @@ end;
 function TORMBr.Empresa(id: String): TJSONArray;
 var
   LMasterList: TObjectList<TSisEmpresa>;
-  vobj:TSisEmpresa;
+  vobj: TSisEmpresa;
 begin
   ControleDeSessao;
 
   LMasterList := TObjectList<TSisEmpresa>.Create;
   try
 
-    with FConnection.ExecuteSQL(' select terma60descr, termicod from TERMINAL order by TERMA60DESCR ') do
+    with FConnection.ExecuteSQL
+      (' select terma60descr, termicod from TERMINAL order by TERMA60DESCR ') do
     begin
       while NotEof do
       begin
@@ -399,7 +405,7 @@ begin
       end;
     end;
 
-    //LMasterList := FContainerEmpresa.Find;
+    // LMasterList := FContainerEmpresa.Find;
     Result := TORMBrJSONUtil.JSONStringToJSONArray<TSisEmpresa>(LMasterList);
   finally
     LMasterList.Free;
@@ -433,19 +439,38 @@ end;
 function TORMBr.GravarItemImpresso(pTERMICOD, pPRVDICOD, pPRODICOD: Integer;
   pQTDE: Double; pReimprimir: String): Double;
 var
-  vQtdeJaImpressa:Double;
+  vQtdeJaImpressa: Double;
 begin
+
+  with FConnection.ExecuteSQL
+    (' SELECT PRODCIMPCOZINHA FROM PRODUTO WHERE PRODICOD = ' +
+    pPRODICOD.ToString) do
+  begin
+    if RecordCount > 0 then
+    begin
+      if FieldByName('PRODCIMPCOZINHA').AsString <> 'S' then
+      begin
+        Result := 0;
+        exit;
+      end;
+    end;
+  end;
 
   if pReimprimir = 'S' then
   begin
     Result := pQTDE;
-    FConnection.ExecuteDirect(' DELETE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = '+pTERMICOD.ToString
-      +' AND PRVDICOD = '+pPRVDICOD.ToString+' AND PRODICOD = '+pPRODICOD.ToString);
+    FConnection.ExecuteDirect
+      (' DELETE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = ' +
+      pTERMICOD.ToString + ' AND PRVDICOD = ' + pPRVDICOD.ToString +
+      ' AND PRODICOD = ' + pPRODICOD.ToString);
   end
-  else begin
+  else
+  begin
     vQtdeJaImpressa := 0;
-    with FConnection.ExecuteSQL(' SELECT SUM(QTDE) AS QTDE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = '+pTERMICOD.ToString
-      +' AND PRVDICOD = '+pPRVDICOD.ToString+' AND PRODICOD = '+pPRODICOD.ToString) do
+    with FConnection.ExecuteSQL
+      (' SELECT SUM(QTDE) AS QTDE FROM PREVENDAITEM_IMPRESSO WHERE TERMICOD = '
+      + pTERMICOD.ToString + ' AND PRVDICOD = ' + pPRVDICOD.ToString +
+      ' AND PRODICOD = ' + pPRODICOD.ToString) do
     begin
       if RecordCount > 0 then
       begin
@@ -461,9 +486,11 @@ begin
 
   if Result > 0 then
   begin
-    FConnection.ExecuteDirect(' INSERT INTO PREVENDAITEM_IMPRESSO(TERMICOD, PRVDICOD, PRODICOD, QTDE) VALUES('
-      +pTERMICOD.ToString+','+pPRVDICOD.ToString+','+pPRODICOD.ToString
-      +','+QuotedStr(StringReplace(FormatFloat('0.00', Result),',','.',[]))+') ');
+    FConnection.ExecuteDirect
+      (' INSERT INTO PREVENDAITEM_IMPRESSO(TERMICOD, PRVDICOD, PRODICOD, QTDE) VALUES('
+      + pTERMICOD.ToString + ',' + pPRVDICOD.ToString + ',' + pPRODICOD.ToString
+      + ',' + QuotedStr(StringReplace(FormatFloat('0.00', Result), ',', '.',
+      [])) + ') ');
   end;
 end;
 
@@ -514,8 +541,10 @@ begin
 
         for vProduto in vGrupo.Produtos do
         begin
-          with FConnection.ExecuteSQL(' select B.id_sabor, B.descricao from PRODUTO_SABORES A '
-            +' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = '+ vProduto.id.ToString) do
+          with FConnection.ExecuteSQL
+            (' select B.id_sabor, B.descricao from PRODUTO_SABORES A ' +
+            ' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = '
+            + vProduto.id.ToString) do
           begin
             while NotEof do
             begin
@@ -664,8 +693,10 @@ begin
       vProd.QTD := FieldByName('PVITN3QTD').AsInteger;
       vProd.IMPRESSO := FieldByName('IMPRESSO').AsString;
 
-      vResult := FConnection.ExecuteSQL(' select B.id_sabor, B.descricao from PRODUTO_SABORES A '
-        +' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = '+ vProd.id.ToString);
+      vResult := FConnection.ExecuteSQL
+        (' select B.id_sabor, B.descricao from PRODUTO_SABORES A ' +
+        ' INNER JOIN SABORES B ON B.id_sabor = A.id_sabor WHERE A.prodicod = ' +
+        vProd.id.ToString);
 
       while vResult.NotEof do
       begin
